@@ -6,33 +6,33 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 interface FormData {
-    fullName: string;
+    fullname: string;
     email: string;
-    mobile: string;
-    nationalId: string;
+    mobile_number: string;
+    nid: string;
     password: string;
-    confirmPassword: string;
+    conform_password: string;
 }
 
 const schema = yup.object().shape({
-    fullName: yup.string().required("Name is required"),
-    email: yup.string().email().required("Email is required"),
-    mobile: yup.string().required("Mobile number is required"),
-    nationalId: yup.string().required("National ID is required"),
-    password: yup.string().min(8).max(20).required(),
-    confirmPassword: yup
+    fullname: yup.string().required("Name is required"),
+    email: yup.string().email("Invalid email format").required("Email is required"),
+    mobile_number: yup.string().required("Mobile number is required"),
+    nid: yup.string().required("National ID is required"),
+    password: yup.string().min(8, "Password must be at least 8 characters").max(20, "Password must be at most 20 characters").required("Password is required"),
+    conform_password: yup
         .string()
         .oneOf([yup.ref("password")], "Passwords must match")
-        .required("Password did not match"),
+        .required("Password confirmation is required"),
 });
 
 type FieldKeys =
-    | "fullName"
+    | "fullname"
     | "email"
-    | "mobile"
-    | "nationalId"
+    | "mobile_number"
+    | "nid"
     | "password"
-    | "confirmPassword";
+    | "conform_password";
 
 const SignUpForm: FC = () => {
     const {
@@ -43,12 +43,12 @@ const SignUpForm: FC = () => {
     } = useForm<FormData>({
         resolver: yupResolver(schema),
         defaultValues: {
-            fullName: "",
-            mobile: "",
+            fullname: "",
             email: "",
-            nationalId: "",
+            mobile_number: "",
+            nid: "",
             password: "",
-            confirmPassword: "",
+            conform_password: "",
         },
     });
 
@@ -63,8 +63,9 @@ const SignUpForm: FC = () => {
                 },
                 body: JSON.stringify(data),
             });
+
             const result = await response.json();
-            console.log('response', result);
+            console.log("response", result);
 
             if (!response.ok) {
                 throw new Error(`Registration failed: ${response.statusText}`);
@@ -104,20 +105,17 @@ const SignUpForm: FC = () => {
             </div>
 
             <div className="flex flex-col justify-center items-center mt-6">
-                <form
-                    className="flex flex-col gap-5"
-                    onSubmit={handleSubmit(onSubmit)}
-                >
+                <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
                     {[
                         {
-                            name: "FullName",
-                            key: "fullName",
+                            name: "Full Name",
+                            key: "fullname",
                             placeholder: "নাম (এনআইডি)",
                         },
                         {
-                            name: "Mobile",
-                            key: "mobile",
-                            placeholder: "মোবাইল",
+                            name: "Mobile Number",
+                            key: "mobile_number",
+                            placeholder: "মোবাইল নম্বর",
                         },
                         {
                             name: "Email",
@@ -126,7 +124,7 @@ const SignUpForm: FC = () => {
                         },
                         {
                             name: "National ID",
-                            key: "nationalId",
+                            key: "nid",
                             placeholder: "এনআইডি",
                         },
                     ].map((field) => (
@@ -137,9 +135,7 @@ const SignUpForm: FC = () => {
                                 render={({ field: { onChange, value } }) => (
                                     <InputField
                                         type={
-                                            field.key
-                                                .toLocaleLowerCase()
-                                                .includes("password")
+                                            field.key.includes("password")
                                                 ? "password"
                                                 : field.key === "email"
                                                 ? "email"
@@ -169,8 +165,8 @@ const SignUpForm: FC = () => {
                             placeholder: "পাসওয়ার্ড",
                         },
                         {
-                            name: "Confirm Password",
-                            key: "confirmPassword",
+                            name: "Conform Password",
+                            key: "conform_password",
                             placeholder: "পাসওয়ার্ড নিশ্চিত করুন",
                         },
                     ].map((field) => (
@@ -200,7 +196,7 @@ const SignUpForm: FC = () => {
 
                     <Button
                         buttonType="submit"
-                        customClass="flex justify-center item-center !bg-primary font-semibold text-sm"
+                        customClass="flex justify-center items-center !bg-primary font-semibold text-sm"
                     >
                         Create Account
                     </Button>
@@ -209,8 +205,7 @@ const SignUpForm: FC = () => {
 
             <div className="flex justify-center">
                 <p className="text-zinc-600 text-sm font-normal mt-14">
-                    By continuing you indicate that you read and agreed to the
-                    Terms of Use
+                    By continuing you indicate that you read and agreed to the Terms of Use
                 </p>
             </div>
         </div>
