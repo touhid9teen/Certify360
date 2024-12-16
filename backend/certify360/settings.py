@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'register',
 ]
@@ -136,3 +137,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Allow specific origins
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Example for React frontend running on port 3000
+    "http://127.0.0.1:3000",
+]
+
+# Or allow all origins (for development purposes only)
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Allow credentials (if needed, e.g., for session authentication)
+CORS_ALLOW_CREDENTIALS = True

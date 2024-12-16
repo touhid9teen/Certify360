@@ -1,11 +1,9 @@
 import { FC, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-// import { useNavigate } from "react-router";
 import Button from "../elements/Button";
 import InputField from "../elements/InputField";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Select, { SingleValue } from "react-select";
 
 interface FormData {
     fullName: string;
@@ -18,33 +16,25 @@ interface FormData {
 
 const schema = yup.object().shape({
     fullName: yup.string().required("Name is required"),
-    studentId: yup.string().min(10).max(10).required(),
-    graduationYear: yup
-        .string()
-        .min(4)
-        .max(4)
-        .required("Graduation Year is required"),
     email: yup.string().email().required("Email is required"),
+    mobile: yup.string().required("Mobile number is required"),
+    nationalId: yup.string().required("National ID is required"),
     password: yup.string().min(8).max(20).required(),
     confirmPassword: yup
         .string()
-        .oneOf([yup.ref("password")])
+        .oneOf([yup.ref("password")], "Passwords must match")
         .required("Password did not match"),
 });
 
 type FieldKeys =
-    | "fullName" // Name (NID)
-    | "email" // Email
-    | "mobile" // Mobile number
-    | "nationalId" // National ID (NID)
-    | "password" // Password
-    | "confirmPassword"; // Confirm password
+    | "fullName"
+    | "email"
+    | "mobile"
+    | "nationalId"
+    | "password"
+    | "confirmPassword";
 
 const SignUpForm: FC = () => {
-    const [selectedOption, setSelectedOption] = useState<OptionType | null>(
-        null
-    );
-
     const {
         reset,
         control,
@@ -62,17 +52,36 @@ const SignUpForm: FC = () => {
         },
     });
 
-    const onSubmit: SubmitHandler<FormData> = (data) => {
-        console.log("data", data);
-        // Store value in localstorage
-        localStorage.setItem("user", JSON.stringify(data));
-        reset();
-        // navigate("/login");
+    const onSubmit: SubmitHandler<FormData> = async (data) => {
+        try {
+            console.log("data", data);
+
+            const response = await fetch("http://127.0.0.1:8000/user/register/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            const result = await response.json();
+            console.log('response', result);
+
+            if (!response.ok) {
+                throw new Error(`Registration failed: ${response.statusText}`);
+            }
+
+            console.log("Registration successful", result);
+
+            localStorage.setItem("user", JSON.stringify(result));
+
+            reset();
+        } catch (error) {
+            console.error("Error:", error);
+        }
     };
 
     return (
         <div className="w-[821px] h-[900px] bg-white border-2">
-            {/* message top */}
             <div className="flex flex-col items-center w-full mt-12">
                 <p>ইতিমধ্যে একটি অ্যাকাউন্ট আছে?</p>
                 <p
@@ -85,7 +94,6 @@ const SignUpForm: FC = () => {
                 </p>
             </div>
 
-            {/* headline */}
             <div className="mt-16 flex flex-col justify-center items-center">
                 <h2 className="text-2xl text-black font-semibold">
                     নিবন্ধন করে আপনার যাত্রা শুরু করুন
@@ -95,7 +103,6 @@ const SignUpForm: FC = () => {
                 </h4>
             </div>
 
-            {/* Signup Form */}
             <div className="flex flex-col justify-center items-center mt-6">
                 <form
                     className="flex flex-col gap-5"
@@ -139,9 +146,9 @@ const SignUpForm: FC = () => {
                                                 : "text"
                                         }
                                         customInputClass="w-100 border-zinc-300 bg-white flex-shrink-0 rounded-lg placeholder:text-sm placeholder:text-zinc-600 placeholder:font-normal"
-                                        value={value as string}
+                                        value={value || ""}
                                         handleChange={onChange}
-                                        id={value as string}
+                                        id={`input-${field.key}`}
                                         name={field.name}
                                         placeholder={field.placeholder}
                                     />
@@ -175,9 +182,9 @@ const SignUpForm: FC = () => {
                                     <InputField
                                         type="password"
                                         customInputClass="!w-100 border-zinc-300 bg-white flex-shrink-0 rounded-lg placeholder:text-sm placeholder:text-zinc-600 placeholder:font-normal"
-                                        value={value as string}
+                                        value={value || ""}
                                         handleChange={onChange}
-                                        id={value as string}
+                                        id={`input-${field.key}`}
                                         name={field.name}
                                         placeholder={field.placeholder}
                                     />
