@@ -4,12 +4,12 @@ import re
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
-    confirm_password = serializers.CharField(write_only=True)  # Add confirm password field
+    conform_password = serializers.CharField(write_only=True)  # Add confirm password field
 
     class Meta:
         model = User
-        fields = ['email', 'name', 'mobile_number', 'nid', 'password', 'confirm_password', 'is_active', 'date_joined']
-        read_only_fields = ['date_joined', 'is_active']
+        fields = ['email', 'fullname', 'mobile_number', 'nid', 'password', 'conform_password']
+    
 
     # Custom validation
     def validate_email(self, value):
@@ -27,24 +27,24 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("National ID must be exactly 20 digits long.")
         return value
 
-    # Validate if password and confirm_password match
+    # Validate if password and conform_password match
     def validate(self, data):
         password = data.get('password')
-        confirm_password = data.get('confirm_password')
+        conform_password = data.get('conform_password')
         
-        if password != confirm_password:
-            raise serializers.ValidationError({"confirm_password": "Password and confirm password do not match."})
+        if password != conform_password:
+            raise serializers.ValidationError({"conform_password": "Password and confirm password do not match."})
         
         return data
 
     def create(self, validated_data):
-        # Remove confirm_password from validated data before passing it to the create_user method
-        validated_data.pop('confirm_password', None)
+        # Remove conform_password from validated data before passing it to the create_user method
+        validated_data.pop('conform_password', None)
         
         # Use the custom manager's create_user method
         return User.objects.create_user(
             email=validated_data['email'],
-            name=validated_data['name'],
+            fullname=validated_data['fullname'],
             mobile_number=validated_data['mobile_number'],
             nid=validated_data['nid'],
             password=validated_data['password']
