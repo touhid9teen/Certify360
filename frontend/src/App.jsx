@@ -1,6 +1,7 @@
 // App Component
 import React, { useState } from 'react';
-import InputField from './elements/inputField';
+import InputField from './elements/InputField';
+import Label from './elements/Label';
 
 function App() {
   const [value, setValue] = useState("");
@@ -22,12 +23,11 @@ function App() {
     <>
       <div>Do Start</div>
       <div className="flex flex-col">
-        <label
-          htmlFor="inputField"
-          className="mb-2 text-sm font-medium text-gray-700"
-        >
-          Input Field
-        </label>
+      <Label
+                labelText="Enter the full name"
+                htmlFor="inputField"
+                customClass="mb-2 text-sm font-medium text-gray-700"
+            />
         <InputField
           id="inputField"
           name="inputField"
