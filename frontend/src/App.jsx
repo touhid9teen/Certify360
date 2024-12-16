@@ -1,17 +1,45 @@
 // App Component
-import Button from './elements/Button';
+import React, { useState } from 'react';
+import InputField from './elements/inputField';
 
 function App() {
+  const [value, setValue] = useState("");
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+
+    // Validation logic
+    if (newValue.length > 10) {
+      setError('Input must be at least 3 characters long');
+    } else {
+      setError('');
+    }
+  };
+
   return (
     <>
       <div>Do Start</div>
-      <div className="border-2">
-        <Button
-          buttonType="submit"
-          customClass="flex justify-center items-center !bg-primary font-semibold text-sm" // Ensure this is valid
+      <div className="flex flex-col">
+        <label
+          htmlFor="inputField"
+          className="mb-2 text-sm font-medium text-gray-700"
         >
-          Create Account
-        </Button>
+          Input Field
+        </label>
+        <InputField
+          id="inputField"
+          name="inputField"
+          value={value}
+          handleChange={handleChange}
+          placeholder="Enter text"
+          type="text"
+          customInputClass={`w-full p-2 border border-gray-300 rounded-lg ${
+            error ? 'border-red-500' : ''
+          }`}
+        />
+        {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
       </div>
     </>
   );
