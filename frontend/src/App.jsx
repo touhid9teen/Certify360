@@ -1,6 +1,7 @@
 // App Component
 // import SignUpForm from "./components/SingUpForm";
-import SignUpPage from "./pages/SignUpPage";
+// import SignUpPage from "./pages/SignUpPage";
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
   
@@ -8,7 +9,7 @@ function App() {
   return (
     <>
       
-      <SignUpPage/>
+      <MainLayout/>
     </>
   );
 }
