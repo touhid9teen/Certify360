@@ -1,14 +1,11 @@
-// App Component
-import SignUpForm from "./components/SingUpForm";
+import { BrowserRouter } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
-  
-
   return (
-    <>
-      <div>Do Start</div>
-      <SignUpForm/>
-    </>
+    <BrowserRouter>
+      <MainLayout />
+    </BrowserRouter>
   );
 }
 
