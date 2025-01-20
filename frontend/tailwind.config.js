@@ -7,8 +7,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#4CAF50",  // Your primary color
+        primary: "#5630FF",
+        secondary: "#FBBD1D",
       },
+      fontFamily: {
+        metropolis: ['Metropolis'],
+      }
     },
   },
   plugins: [],
