@@ -1,41 +1,36 @@
-import React,{ ButtonHTMLAttributes, FC, ReactNode } from "react";
-	
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-	children: ReactNode;
-	icon?: {
+import React, { BaseHTMLAttributes, FC, ReactNode } from "react";
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    children: ReactNode;
+    icon?: {
 		iconFile: ReactNode;
 		iconCustomClass?: string;
-	};
-	customClass?: string;
-	buttonType?: "submit" | "reset" | "button";
-	buttonVariant?: "primary" | "secondary";
+	}
+    buttonStyle?: string;
+    iconStyle?: string;
+    buttonType?: "button" | "submit" | "reset";
+    buttonVariant?: "primary" | "secondary";
 }
 
-const Button: FC<ButtonProps> = (props: ButtonProps) => {
-	const {
-		children,
-		icon,
-		customClass = "",
-		buttonVariant = "primary",
-		buttonType = "button",
-		...attributes
-	} = props;
+const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
+    const { children, icon, buttonStyle, iconStyle, buttonVariant } = props;
 
-	const buttonColor = `${
-		buttonVariant === "primary"
-			? "bg-primary text-white disabled:bg-primary/65 "
-			: "bg-white text-[#858585] border border-[#DFDFDF]"
-	}`;
-
-	return (
-		<button
-			type={buttonType}
-			className={`flex items-center rounded-xl p-3.5 ${buttonColor} ${customClass}`}
-			{...attributes}
-		>
-			{children}
-		</button>
-	);
+    const buttonColor =
+        `${buttonVariant === "primary" ? "bg-primary text-white" : "bg-secondary"}`;
+    return (
+        <button
+            type="button"
+            className={`flex items-center rounde-lg h-14 px-5 text-semibold ${buttonStyle} ${buttonColor} `}
+        >
+            {icon && (
+                <span
+				className={`${icon.iconCustomClass}`}
+                >
+                  {icon.iconFile}
+                </span>
+            )}
+            <span>{children}</span>
+        </button>
+    );
 };
-
 export default Button;
