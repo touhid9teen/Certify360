@@ -1,49 +1,30 @@
-import { useState } from 'react';
-import Toggle from './elements/Toggle';
+import React from 'react';
+import ActionButton from './components/ActionButton';
+import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
 
-const App = () => {
-  const [toggleStates, setToggleStates] = useState({
-    toggle1: false,
-    toggle2: true,
-    toggle3: false,
-  });
-
-  const handleToggleChange = ({ name, checked }) => {
-    setToggleStates((prevState) => ({
-      ...prevState,
-      [name]: checked,
-    }));
+const App= () => {
+  const handleEdit = () => {
+    alert('Edit action clicked');
   };
 
+  const handleDelete = () => {
+    alert('Delete action clicked');
+  };
+
+  const handleView = () => {
+    alert('View action clicked');
+  };
+
+  const options = [
+    { icon: <FaEdit />, text: 'Edit', onClick: handleEdit },
+    { icon: <FaTrash />, text: 'Delete', onClick: handleDelete },
+    { icon: <FaEye />, text: 'View', onClick: handleView },
+  ];
+
   return (
-    <div className="p-4 space-y-4">
-      <Toggle
-        id="toggle1"
-        name="toggle1"
-        initialChecked={toggleStates.toggle1}
-        onChangeToggle={handleToggleChange}
-        customClass="border-gray-300 rounded"
-        checkedOnLabel="Enabled"
-        checkedOffLabel="Disabled"
-      />
-      <Toggle
-        id="toggle2"
-        name="toggle2"
-        initialChecked={toggleStates.toggle2}
-        onChangeToggle={handleToggleChange}
-        customClass="border-gray-300 rounded"
-        checkedOnLabel="Active"
-        checkedOffLabel="Inactive"
-      />
-      <Toggle
-        id="toggle3"
-        name="toggle3"
-        initialChecked={toggleStates.toggle3}
-        onChangeToggle={handleToggleChange}
-        customClass="border-gray-300 rounded"
-        checkedOnLabel="On"
-        checkedOffLabel="Off"
-      />
+    <div className="p-4">
+      <h1 className="text-2xl mb-4">Action Button Example</h1>
+      <ActionButton options={options} />
     </div>
   );
 };
