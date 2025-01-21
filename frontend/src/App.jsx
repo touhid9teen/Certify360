@@ -1,30 +1,15 @@
-import React from 'react';
-import ActionButton from './components/ActionButton';
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
+import Search from './elements/Search';
 
-const App= () => {
-  const handleEdit = () => {
-    alert('Edit action clicked');
+const App = () => {
+  const handleSearch = (query) => {
+    console.log('Searching for:', query);
+    // Perform search logic here
   };
-
-  const handleDelete = () => {
-    alert('Delete action clicked');
-  };
-
-  const handleView = () => {
-    alert('View action clicked');
-  };
-
-  const options = [
-    { icon: <FaEdit />, text: 'Edit', onClick: handleEdit },
-    { icon: <FaTrash />, text: 'Delete', onClick: handleDelete },
-    { icon: <FaEye />, text: 'View', onClick: handleView },
-  ];
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl mb-4">Action Button Example</h1>
-      <ActionButton options={options} />
+      <h1 className="text-2xl mb-4">Search Example</h1>
+      <Search onSearch={handleSearch} />
     </div>
   );
 };
