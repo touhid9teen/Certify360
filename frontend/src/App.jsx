@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ModalHeader from './components/modal/ModalHeader';
 import ModalBody from './components/modal/ModalBody';
+import ModalFooter from './components/modal/ModalFooter';
 import Delete from './assets/delete.png';
 
 const App = () => {
@@ -8,6 +9,11 @@ const App = () => {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const handleSubmit = () => {
+    alert('Submit action');
+    closeModal();
+  };
 
   return (
     <div className="p-4">
@@ -21,7 +27,7 @@ const App = () => {
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg overflow-hidden shadow-lg">
+          <div className="bg-white rounded-lg overflow-hidden shadow-lg relative">
             <ModalHeader
               title="Modal Title"
               onClose={closeModal}
@@ -29,6 +35,11 @@ const App = () => {
             <ModalBody
               content="This is the modal content."
               imageSrc={Delete}
+            />
+            <ModalFooter
+              primaryButtonText="Submit"
+              onCancel={closeModal}
+              onSubmit={handleSubmit}
             />
           </div>
         </div>
