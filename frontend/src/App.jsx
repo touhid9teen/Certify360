@@ -1,18 +1,26 @@
-import Button from './elements/Button';
-import { BrowserRouter } from 'react-router-dom';
-import MainLayout from './layouts/MainLayout';
+import { useState } from 'react';
+import InputField from './elements/inputField';
 
-function App() {
+const App = () => {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
   return (
-    <>
-      <div className='flex justify-center'>
-        <Button children={'Create Account'} buttonVariant='primary'/>
-      </div>
-      <BrowserRouter>
-        <MainLayout />
-      </BrowserRouter>
-    </>
+    <div className="p-4">
+      <h1 className="text-2xl mb-4">Parent Component</h1>
+      <InputField
+        type="text"
+        placeholder="Enter text"
+        value={inputValue}
+        onChange={handleInputChange}
+        label="Input Field"
+      />
+      <p className="mt-4">Current Value: {inputValue}</p>
+    </div>
   );
-}
+};
 
 export default App;
