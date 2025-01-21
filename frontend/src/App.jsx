@@ -1,7 +1,7 @@
 import { useState } from 'react';
-
-import Delete from  './assets/delete.png'
+import ModalHeader from './components/modal/ModalHeader';
 import ModalBody from './components/modal/ModalBody';
+import Delete from './assets/delete.png';
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,16 +22,14 @@ const App = () => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg overflow-hidden shadow-lg">
+            <ModalHeader
+              title="Modal Title"
+              onClose={closeModal}
+            />
             <ModalBody
               content="This is the modal content."
-              imageSrc= {Delete}
+              imageSrc={Delete}
             />
-            <button
-              onClick={closeModal}
-              className="px-4 py-2 bg-red-500 text-white rounded mt-4"
-            >
-              Close Modal
-            </button>
           </div>
         </div>
       )}
