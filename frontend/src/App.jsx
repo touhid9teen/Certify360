@@ -1,46 +1,27 @@
-import { useState } from 'react';
-import Checkbox from './elements/Checkbox';
+import  { useState } from 'react';
+import InputField from './elements/InputField';
+import Tooltip from './elements/Tooltip';
 
-const App =() => {
-  const [checkboxStates, setCheckboxStates] = useState({
-    checkbox1: false,
-    checkbox2: true,
-    checkbox3: false,
-  });
+const App= () => {
+  const [inputValue, setInputValue] = useState('');
 
-  const handleCheckboxChange = ({ name, checked }) => {
-    setCheckboxStates((prevState) => ({
-      ...prevState,
-      [name]: checked,
-    }));
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
   };
 
   return (
-    <div className="p-4 space-y-4">
-      <Checkbox
-        id="checkbox1"
-        initialChecked={checkboxStates.checkbox1}
-        onChangeCheckbox={handleCheckboxChange}
-        customClassCheckbox="border-gray-300 rounded"
-        checkedOnLabel="Checked"
-        checkedOffLabel="Unchecked"
-      />
-      <Checkbox
-        id="checkbox2"
-        initialChecked={checkboxStates.checkbox2}
-        onChangeCheckbox={handleCheckboxChange}
-        customClassCheckbox="border-gray-300 rounded"
-        checkedOnLabel="Subscribed"
-        checkedOffLabel="Unsubscribed"
-      />
-      <Checkbox
-        id="checkbox3"
-        initialChecked={checkboxStates.checkbox3}
-        onChangeCheckbox={handleCheckboxChange}
-        customClassCheckbox="border-gray-300 rounded"
-        checkedOnLabel="Enabled"
-        checkedOffLabel="Disabled"
-      />
+    <div className="p-4 flex flex-col item-center  max-w-lg ">
+      <h1 className="text-2xl mb-4">App Component</h1>
+      <Tooltip content="This is an input field" position={'top'}>
+        <InputField
+          type="text"
+          placeholder="Enter text"
+          value={inputValue}
+          onChange={handleInputChange}
+          label="Input Field"
+        />
+      </Tooltip>
+      <p className="mt-4">Current Value: {inputValue}</p>
     </div>
   );
 };
