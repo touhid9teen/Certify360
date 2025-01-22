@@ -1,49 +1,48 @@
-import { useState } from 'react';
-import ModalHeader from './components/modal/ModalHeader';
-import ModalBody from './components/modal/ModalBody';
-import ModalFooter from './components/modal/ModalFooter';
-import Delete from './assets/delete.png';
+import TableRow from './components/table/TableRow';
 
-const App = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
-  const handleSubmit = () => {
-    alert('Submit action');
-    closeModal();
+const App= () => {
+  const handleCheckboxChange = (id, checked) => {
+    console.log(`Checkbox with id ${id} is now ${checked ? 'checked' : 'unchecked'}`);
   };
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl mb-4">Modal Example</h1>
-      <button
-        onClick={openModal}
-        className="px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        Open Modal
-      </button>
-
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg overflow-hidden shadow-lg relative">
-            <ModalHeader
-              title="Modal Title"
-              onClose={closeModal}
-            />
-            <ModalBody
-              content="This is the modal content."
-              imageSrc={Delete}
-            />
-            <ModalFooter
-              primaryButtonText="Submit"
-              onCancel={closeModal}
-              onSubmit={handleSubmit}
-            />
-          </div>
-        </div>
-      )}
+      <h1 className="text-2xl mb-4">Table Example</h1>
+      <table className="min-w-full bg-white">
+        <thead>
+          <tr>
+            <th className="py-2">Select</th>
+            <th className="py-2">Name & Designation</th>
+            <th className="py-2">Email</th>
+            <th className="py-2">Phone Number</th>
+            <th className="py-2">Company</th>
+            <th className="py-2">Label</th>
+            <th className="py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <TableRow
+            id="1"
+            nameAndDesignation={<div>John Doe<br /><span className="text-sm text-gray-500">Software Engineer</span></div>}
+            email={['john.doe@example.com', 'john.doe@work.com']}
+            phoneNumber={['123-456-7890', '098-765-4321']}
+            company="Example Corp"
+            label="Active"
+            isChecked={false}
+            handleCheckboxChange={() => handleCheckboxChange('1', !false)}
+          />
+          <TableRow
+            id="2"
+            nameAndDesignation={<div>Jane Smith<br /><span className="text-sm text-gray-500">Product Manager</span></div>}
+            email={['jane.smith@example.com']}
+            phoneNumber={['987-654-3210']}
+            company="Another Corp"
+            label="Inactive"
+            isChecked={true}
+            handleCheckboxChange={() => handleCheckboxChange('2', !true)}
+          />
+        </tbody>
+      </table>
     </div>
   );
 };
