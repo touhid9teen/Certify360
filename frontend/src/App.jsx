@@ -1,48 +1,34 @@
-import { useState } from 'react';
-import Table from './components/table/Table';
-import TableRow from './components/table/TableRow';
 
-const App = () => {
-  const [isChecked, setIsChecked] = useState(false);
+import Avatar from './components/Aavater';
+import { NotificationIcon, SettingsIcon } from './elements/Icon';
+import Search from './elements/Search';
 
-  const handleCheckboxChange = (name, checked) => {
-    setIsChecked(checked);
+const Header = () => {
+  
+
+
+  const handleSearch = () => {
+   
+  };
+
+  const handleSettings = () => {
+    console.log('setting button clicked!');
+  };
+
+  const handleNotification = () => {
+    console.log('notification button clicked!');
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl mb-4">Table Example</h1>
-      <Table
-        id="header"
-        tableData={['Name & Designation', 'Email', 'Phone Number', 'Company', 'Label', 'Actions']}
-        checkBox={true}
-        isChecked={isChecked}
-        handleCheckboxChange={handleCheckboxChange}
-        customTableClass="min-w-full"
-      >
-        <TableRow
-          id="1"
-          nameAndDesignation={<div>John Doe<br /><span className="text-sm text-gray-500">Software Engineer</span></div>}
-          email={['john.doe@example.com', 'john.doe@work.com']}
-          phoneNumber={['123-456-7890', '098-765-4321']}
-          company="Example Corp"
-          label="Active"
-          isChecked={isChecked}
-          handleCheckboxChange={() => handleCheckboxChange({ name: '1', checked: !isChecked })}
-        />
-        <TableRow
-          id="2"
-          nameAndDesignation={<div>Jane Smith<br /><span className="text-sm text-gray-500">Product Manager</span></div>}
-          email={['jane.smith@example.com']}
-          phoneNumber={['987-654-3210']}
-          company="Another Corp"
-          label="Inactive"
-          isChecked={isChecked}
-          handleCheckboxChange={() => handleCheckboxChange({ name: '2', checked: !isChecked })}
-        />
-      </Table>
-    </div>
+    <nav className="flex justify-between pe-5 py-4.5 bg-white">
+      <Search setSearchText={handleSearch} className="w-[541px] h-10.5" />
+      <div className="flex justify-center gap-5 items-center">
+        <SettingsIcon onClick={handleSettings} className="cursor-pointer" />
+        <NotificationIcon onClick={handleNotification} className="cursor-pointer" />
+        <Avatar divCustomClass="h-10 w-10" nameCustomClass="text-2xl flex items-center cursor-pointer" />
+      </div>
+    </nav>
   );
 };
 
-export default App;
+export default Header;
